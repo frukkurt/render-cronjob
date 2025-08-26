@@ -1,9 +1,10 @@
+from fastapi import FastAPI
 import datetime
 import asyncio
 from langchain_mcp_adapters.client import MultiServerMCPClient
-from langgraph.prebuilt import create_react_agent
 
-# กำหนด client MCP
+app = FastAPI()
+
 client = MultiServerMCPClient(
     {
         "Multitool": {
@@ -13,19 +14,8 @@ client = MultiServerMCPClient(
     }
 )
 
-async def main():
+@app.get("/run")
+async def run_job():
     now = datetime.datetime.now().isoformat()
-    print(f"[CronJob] Running at {now}")
-
-    # ตัวอย่าง: ดึง tools จาก MCP
     tools = await client.get_tools()
-    print(f"Tools available: {tools}")
-
-    # ---- ตรงนี้คุณจะใส่โค้ดทำงานจริงได้เลย ----
-    # เช่น invoke agent, fetch API, save DB
-    # agent = create_react_agent(llm, tools=tools) 
-    # result = await agent.ainvoke("วันนี้อากาศเป็นยังไง?")
-    # print(result)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+    return {"status": "ok", "time": now, "tools": str(tools)}
