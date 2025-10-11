@@ -4,3 +4,4 @@ langchain_mcp_adapters
 requests
 fastapi
 uvicorn
+httpx
