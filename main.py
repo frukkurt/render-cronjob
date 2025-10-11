@@ -3,6 +3,7 @@ import datetime
 import asyncio
 import requests
 import uvicorn
+import httpx
 from langchain_mcp_adapters.client import MultiServerMCPClient
 
 app = FastAPI()
