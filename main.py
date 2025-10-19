@@ -7,11 +7,11 @@ import httpx
 from langchain_mcp_adapters.client import MultiServerMCPClient
 
 app = FastAPI()
-
+mcp_url = "https://mcp-server-sn9o.onrender.com/mcp/"
 client = MultiServerMCPClient(
     {
         "Multitool": {
-            "url": "https://mcp-server-sn9o.onrender.com/mcp/",
+            "url": mcp_url,
             "transport": "streamable_http",
         }
     }
@@ -38,6 +38,8 @@ client = MultiServerMCPClient(
 @app.get("/run")
 async def run_job():
     now = datetime.datetime.now().isoformat()
+    tools = None
+    tools = await client.get_tools()
 
     # ตัวอย่าง list ของ API ที่ต้องการเรียก
     urls = [
@@ -62,6 +64,9 @@ async def run_job():
                 results.append({"url": url, "status": "ok", "response": resp.json()})
             else:
                 results.append({"url": url, "status": f"HTTP {resp.status_code}"})
+    if tools is not None:
+        results.append({"url": mcp_url, "status": f"{str([str(i.name) for  i in tools ]    )}"})
+        
 
     return {
         "status": "ok",
