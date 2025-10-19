@@ -28,7 +28,7 @@ async def run_job():
 
     urls = [
         "https://nuviade-agent-new.onrender.com/health",
-        "https://dynamic-prompt-yebz.onrender.com",
+        "https://dynamic-prompt-yebz.onrender.com/health",
     ]
 
     results = []
