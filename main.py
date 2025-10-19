@@ -65,7 +65,9 @@ async def run_job():
             else:
                 results.append({"url": url, "status": f"HTTP {resp.status_code}"})
     if tools is not None:
-        results.append({"url": mcp_url, "status": f"{str([str(i.name) for  i in tools ]    )}"})
+        results.append({"url": mcp_url, "status": f"{str([str(i.name) for  i in tools ])}"})
+    else :
+        results.append({"url": mcp_url, "status": f"FAILL"})
         
 
     return {
